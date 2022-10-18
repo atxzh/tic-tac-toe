@@ -48,26 +48,14 @@
         <!-- ANCHOR Game Grid -->
         <main class="grid">
             <main class="grid grid-bigSquare topLeft active">
-                <main class="grid-smallSquare topLeft x-play">
-                    <svg class="icon play-icon" width="38" height="38">
-                        <use href="icons.svg#x-icon"></use>
-                    </svg>
-                </main>
-                <main class="grid-smallSquare topCenter o-play">
-                    <svg class="icon play-icon" width="38" height="38">
-                        <use href="icons.svg#o-icon"></use>
-                    </svg>
-                </main>
+                <main class="grid-smallSquare topLeft x-play"></main>
+                <main class="grid-smallSquare topCenter o-play"></main>
                 <main class="grid-smallSquare topRight"></main>
                 <main class="grid-smallSquare midLeft x-play"></main>
                 <main class="grid-smallSquare midCenter"></main>
                 <main class="grid-smallSquare midRight"></main>
                 <main class="grid-smallSquare botLeft x-play"></main>
-                <main class="grid-smallSquare botCenter o-play">
-                    <svg class="icon play-icon" width="38" height="38">
-                        <use href="icons.svg#o-icon"></use>
-                    </svg>
-                </main>
+                <main class="grid-smallSquare botCenter o-play"></main>
                 <main class="grid-smallSquare botRight x-play"></main>
             </main>
             <main class="grid grid-bigSquare topCenter">
@@ -208,7 +196,7 @@
                             <span>Player</span>
                         </span>
                     </label>
-                    <input type="radio" name="play-type" id="pvp">
+                    <input type="radio" name="play-type" value="pvp" id="pvp">
                     <div class="hidAccord">
                         <div class="playerInfo">
                             <input type="text" name="player-x" id="pvp-player-x" placeholder="Player X">
@@ -237,20 +225,20 @@
                             <span>Bot</span>
                         </span>
                     </label>
-                    <input type="radio" name="play-type" id="pvb">
+                    <input type="radio" name="play-type" value="pvb" id="pvb">
                     <div class="hidAccord">
                         <div class="playerInfo">
                             <input type="text" name="player" id="pvb-player" placeholder="Player">
                             <div class="color-choice"><input type="color" name="--COLOR-O" id="" value="#b73f2a"></div>
                         </div>
                         <div class="playerQ">
-                            <label for="first-play">Play First</label><input type="checkbox" name="" id="first-play"
-                                checked>
+                            <label for="first-play">Play First</label><input type="checkbox" name="first-play"
+                                id="first-play" checked>
                         </div>
                     </div>
                 </div>
             </main>
-            <button class="buttonBig-roundSquare buttonBig-roundSquare-play">
+            <button class="buttonBig-roundSquare buttonBig-roundSquare-play" id="gameStart">
                 <svg class="icon play" width="28" height="28">
                     <use href="icons.svg#play"></use>
                 </svg>
@@ -260,6 +248,8 @@
         <!-- !SECTION Player Selection -->
 
     </section>
+
+    <script src="game.js"></script>
 
 </body>
 

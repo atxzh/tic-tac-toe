@@ -195,11 +195,11 @@ section.gameArea p:nth-of-type(2) {
 }
 
 .grid-smallSquare.x-play {
-    background-color: rgb(var(--COLOR-X));
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 34 34" fill="none" stroke="white" stroke-width="4.46" stroke-linecap="round" stroke-linejoin="round" ><line x1="20" y1="2" x2="2" y2="20"></line><line x1="2" y1="2" x2="20" y2="20"></line></svg>') no-repeat center rgb(var(--COLOR-X))
 }
 
 .grid-smallSquare.o-play {
-    background-color: rgb(var(--COLOR-O));
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 32 32" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') no-repeat center rgb(var(--COLOR-O))
 }
 
 .topLeft {
