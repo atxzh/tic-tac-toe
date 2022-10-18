@@ -12,3 +12,6 @@
 
 4. Create Accordion for User Play Selection
 
+## Creating P2P
+
+1. Create a Private Scoped Function
