@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <title>Ultimate Tic-Tac-Toe</title>
+</head>
+
+<body>
+
+    <!-- SECTION Header -->
+    <header>
+        <h1>Ultimate Tic-Tac-Toe</h1>
+        <div class="head">
+            <button class="buttonBig-revealLabel buttonBig-revealLabel-qmark">
+                <svg class="icon question-mark" width="28" height="28">
+                    <use href="icons.svg#question-mark"></use>
+                </svg>
+                <p>Help</p>
+            </button>
+            <button class="buttonBig-revealLabel buttonBig-revealLabel-reset">
+                <svg class="icon reset-alt" width="28" height="28">
+                    <use href="icons.svg#reset-alt"></use>
+                </svg>
+                <p>Reset</p>
+            </button>
+        </div>
+    </header>
+    <!-- !SECTION Header -->
+
+    <!-- SECTION Game Area -->
+    <section class="gameArea">
+
+        <!-- ANCHOR Choice 1 -->
+        <main class="turn turn-x active">
+            <p><svg class="icon play-icon" width="38" height="38">
+                    <use href="icons.svg#x-icon" style="color:rgb(var(--COLOR-X))"></use>
+                </svg>'s Turn</p>
+            <p>Played By</p>
+            <p>Player X</p>
+        </main>
+
+        <!-- ANCHOR Game Grid -->
+        <main class="grid">
+            <main class="grid grid-bigSquare topLeft active">
+                <main class="grid-smallSquare topLeft x-play">
+                    <svg class="icon play-icon" width="38" height="38">
+                        <use href="icons.svg#x-icon"></use>
+                    </svg>
+                </main>
+                <main class="grid-smallSquare topCenter o-play">
+                    <svg class="icon play-icon" width="38" height="38">
+                        <use href="icons.svg#o-icon"></use>
+                    </svg>
+                </main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft x-play"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft x-play"></main>
+                <main class="grid-smallSquare botCenter o-play">
+                    <svg class="icon play-icon" width="38" height="38">
+                        <use href="icons.svg#o-icon"></use>
+                    </svg>
+                </main>
+                <main class="grid-smallSquare botRight x-play"></main>
+            </main>
+            <main class="grid grid-bigSquare topCenter">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare topRight">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare midLeft">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare midCenter">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare midRight">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare botLeft">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare botCenter">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+            <main class="grid grid-bigSquare botRight">
+                <main class="grid-smallSquare topLeft"></main>
+                <main class="grid-smallSquare topCenter"></main>
+                <main class="grid-smallSquare topRight"></main>
+                <main class="grid-smallSquare midLeft"></main>
+                <main class="grid-smallSquare midCenter"></main>
+                <main class="grid-smallSquare midRight"></main>
+                <main class="grid-smallSquare botLeft"></main>
+                <main class="grid-smallSquare botCenter"></main>
+                <main class="grid-smallSquare botRight"></main>
+            </main>
+        </main>
+
+        <!-- ANCHOR Choice 2 -->
+        <main class="turn turn-o">
+
+            <p><svg class="icon play-icon" width="38" height="38">
+                    <use href="icons.svg#o-icon" style="color:rgb(var(--COLOR-O))"></use>
+                </svg>'s Turn</p>
+            <p>Played By</p>
+            <p>Player O</p>
+        </main>
+
+    </section>
+    <!-- !SECTION Game Area -->
+
+    <!-- SECTION Footer -->
+    <footer>
+        <div class="foot">
+            mlksathil
+            <button class="button buttonSmall"><svg class="icon github" width="24" height="24">
+                    <use href="icons.svg#github"></use>
+                </svg></button>
+            2022
+        </div>
+    </footer>
+    <!-- !SECTION Footer -->
+
+    <section class="overlay" style="display:none">
+
+        <!-- SECTION Selection -->
+        <section class="selection">
+            <h3>Select your Game Play Mode</h3>
+            <main class="accordion">
+
+                <div class="playType">
+                    <label class="tab" for="pvp">
+                        <span class="plays">
+                            <svg class="icon player" width="32" height="32">
+                                <use href="icons.svg#player"></use>
+                            </svg>
+                            <span>Player</span>
+                        </span>
+                        <strong>vs</strong>
+                        <span class="plays">
+                            <svg class="icon player" width="32" height="32">
+                                <use href="icons.svg#player"></use>
+                            </svg>
+                            <span>Player</span>
+                        </span>
+                    </label>
+                    <input type="radio" name="play-type" id="pvp">
+                    <div class="hidAccord">
+                        <div class="playerInfo">
+                            <input type="text" name="player-x" id="pvp-player-x" placeholder="Player X">
+                            <div class="color-choice"><input type="color" name="--COLOR-O" id="" value="#b73f2a"></div>
+                        </div>
+                        <div class="playerInfo">
+                            <input type="text" name="player-o" id="pvp-player-o" placeholder="Player O">
+                            <div class="color-choice"><input type="color" name="--COLOR-O" id="" value="#1766b5"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="playType">
+                    <label class="tab" for="pvb">
+                        <span class="plays">
+                            <svg class="icon player" width="32" height="32">
+                                <use href="icons.svg#player"></use>
+                            </svg>
+                            <span>Player</span>
+                        </span>
+                        <strong>vs</strong>
+                        <span class="plays">
+                            <svg class="icon bot" width="32" height="32">
+                                <use href="icons.svg#bot"></use>
+                            </svg>
+                            <span>Bot</span>
+                        </span>
+                    </label>
+                    <input type="radio" name="play-type" id="pvb">
+                    <div class="hidAccord">
+                        <div class="playerInfo">
+                            <input type="text" name="player" id="pvb-player" placeholder="Player">
+                            <div class="color-choice"><input type="color" name="--COLOR-O" id="" value="#b73f2a"></div>
+                        </div>
+                        <div class="playerQ">
+                            <label for="first-play">Play First</label><input type="checkbox" name="" id="first-play"
+                                checked>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <button class="buttonBig-roundSquare buttonBig-roundSquare-play">
+                <svg class="icon play" width="28" height="28">
+                    <use href="icons.svg#play"></use>
+                </svg>
+                <p>Play Game</p>
+            </button>
+        </section>
+        <!-- !SECTION Player Selection -->
+
+    </section>
+
+</body>
+
+</html>
