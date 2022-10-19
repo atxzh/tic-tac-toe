@@ -11,7 +11,15 @@
     --NORM: 188, 194, 200;
     --ACTIVE: 9, 10, 11;
 
+    --LIGHT: 248, 249, 250;
+    --LIGHT-FILTER: invert(100%) sepia(2%) saturate(2947%) hue-rotate(172deg) brightness(100%) contrast(97%);
+    --GRAY: 173, 181, 189;
+    --GRAY-FILTER: invert(49%) sepia(8%) saturate(522%) hue-rotate(167deg) brightness(89%) contrast(85%);
+    --DARK: 33, 37, 41;
+    --DARK-FILTER: invert(11%) sepia(8%) saturate(969%) hue-rotate(169deg) brightness(97%) contrast(90%);
+
     --PLAY: 84, 163, 0;
+    --PLAY-FILTER: invert(16%) sepia(21%) saturate(5240%) hue-rotate(93deg) brightness(94%) contrast(104%);
     --HELP: 250, 163, 7;
     --HELP-FILTER: invert(71%) sepia(46%) saturate(6833%) hue-rotate(6deg) brightness(105%) contrast(96%);
     --RESET: 208, 0, 0;
@@ -76,6 +84,8 @@ button {
     border: none;
     padding: 0rem;
     background: none;
+
+    cursor: pointer;
 }
 
 .buttonBig-revealLabel>p {
@@ -93,7 +103,7 @@ button {
 .buttonBig-roundSquare {
     background-color: rgb(var(--PLAY));
 
-    padding: 0rem .25rem;
+    padding: .25rem 1rem;
 
     gap: 0rem;
 
@@ -273,6 +283,8 @@ section.overlay {
     align-items: center;
 
     background-color: rgba(0, 0, 0, 0.5);
+
+    z-index: 10;
 }
 
 /* SECTION Player Selection */
@@ -296,27 +308,39 @@ section.overlay {
 .selection label.tab {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
-    gap: .75rem;
+    justify-content: center;
+    gap: 1.15rem;
 
     padding: .5rem;
 
     background-color: rgb(var(--ACTIVE), var(--HILIGHT-HIGH));
-    color: white;
+    color: var(--LIGHT);
+
+    min-width: 15rem;
+}
+
+.selection label.tab>* {
+    filter: var(--LIGHT-FILTER);
+    color: var(--DARK);
 }
 
 .selection label span.plays {
-    font-size: 1.15rem;
-    font-weight: 500;
+    font-size: .8rem;
+    font-weight: 400;
 
     display: flex;
     align-items: center;
     align-content: center;
     gap: .25rem;
+
+    min-width: 4.5rem;
 }
 
 .selection label>strong {
-    font-size: 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+
+    margin: auto;
 }
 
 .selection input {
@@ -345,7 +369,7 @@ section.overlay {
     justify-content: center;
     gap: 1rem;
 
-    padding: .5rem;
+    padding: .25rem;
 }
 
 .playerInfo>input[type="text"] {
@@ -355,7 +379,6 @@ section.overlay {
     border: 2px solid rgb(var(--ACTIVE));
 
     padding: .2rem .75rem;
-
 }
 
 .hidAccord {
@@ -368,8 +391,13 @@ section.overlay {
     background-color: rgb(var(--NORM), var(--HILIGHT-LOW));
 
     height: 0rem;
+    padding: .5rem;
 
     transition: all .8s;
+}
+
+.hidAccord * {
+    font-size: .8rem;
 }
 
 .playType input[name="play-type"]:checked+.hidAccord {
@@ -426,6 +454,10 @@ section.overlay {
     position: absolute;
     top: -10px;
     left: -10px;
+}
+
+.buttonBig-roundSquare-play>* {
+    filter: var(--PLAY-FILTER);
 }
 
 /* !SECTION Player Selection */
