@@ -1,52 +1,58 @@
 (function () {
     const startGameButton = document.getElementById('gameStart')
 
+    const sectionOverlay = document.querySelector('section.overlay')
+
     function getGamePlayInfo() {
-        const gameModeSelect = document.querySelector('input[name="play-type]:checked')
+        const gameModeSelect = document.querySelector('input[name="play-type"]:checked') ?? document.querySelectorAll('input[name="play-type"]')[0]
 
         const gameModeSelection = gameModeSelect.value
 
-        const infoSection1 = gameModeSelection.nextElementSibling.firstElementChild
+        const infoSection1 = gameModeSelect.nextElementSibling.firstElementChild
 
-        const infoSection2 = gameModeSelection.nextElementSibling.lastElementChild
+        const infoSection2 = gameModeSelect.nextElementSibling.lastElementChild
 
-        var playerAChoice = {
-            playerName: infoSection1.firstElementChild.value || 'Player A',
-            colorValue: hexToRGB(infoSection1.lastElementChild.firstElementChild.value),
-            selectClassValue: `x-play`
-        }
+        let playerA = createPlayers(
+            infoSection1.firstElementChild.value,
+            infoSection1.lastElementChild.firstElementChild.value ?? '#b73f2a',
+            infoSection2.lastElementChild.checked ?? true)
 
-        if (gameModeSelection.id == 'pvp') {
+        let playerB = createPlayers(
+            infoSection2.firstElementChild?.value ?? '', infoSection2.lastElementChild.firstElementChild?.value,
+            infoSection2.lastElementChild.checked ?? false,
+            gameModeSelection)
 
-            var playerBChoice = {
-                playerName: infoSection2.firstElementChild.value || 'Player B',
-                colorValue: hexToRGB(infoSection2.lastElementChild.firstElementChild.value),
-                selectClassValue: `o-play`
-            }
-
-        } else {
-
-            var playerBChoice = {
-                playerName: 'Bot',
-                colorValue: hexToRGB('#1766b5'),
-                selectClassValue: `o-play`
-            }
-
-            if (!infoSection2.lastElementChild.checked) {
-                playerAChoice.selectClassValue = 'o-play'
-                playerBChoice.selectClassValue = 'x-play'
-            }
-
-        }
-
+        sectionOverlay.style.setProperty('display', 'none')
     }
 
     startGameButton.addEventListener('click', getGamePlayInfo)
 })();
 
-const hexToRGB = function (hex) {
-    const rgbResult = /^#?([a-f/d]{2})([a-f/d]{2})([a-f/d]{2})$/i.exec(hex)
+const createPlayers = function (name, colorValue, firstPlay, gameMode) {
+    const playerName = name.length < 1 ?
+        firstPlay ?
+            gameMode == 'pvb' ?
+                'Bot' : 'Player X' :
+            gameMode == 'pvb' ?
+                'Bot' : 'Player O' :
+        name;
 
-    return [parseInt(rgbResult[0], 16), parseInt(rgbResult[1], 16), parseInt(rgbResult[2], 16)].toString()
+    const hexToRGB = function (hex) {
+        const rgbResult = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
+        return [parseInt(rgbResult[1], 16), parseInt(rgbResult[2], 16), parseInt(rgbResult[3], 16)].toString()
+
+    };
+
+    const playerColor = hexToRGB(colorValue || '#1766b5')
+
+    const playerClassChoice = firstPlay ?
+        playerName == 'Bot' ?
+            'o-play' : 'x-play' :
+        playerName == 'Bot' ?
+            'x-play' : 'o-play'
+
+    const playerType = playerName == 'Bot' ? 'Bot' : 'Person'
+
+    return { playerName, playerColor, playerClassChoice, playerType }
 }
