@@ -15,5 +15,12 @@
 ## Creating P2P
 
 1. Create a Private Scoped Function for Game Start. Auto-Executed
+    - Gets Player Info & Updates
+    - Call `startGameEvent()`
+    - Call to create Players using `createPlayers()`
 
-2. Create a Factory Functions for creating Players
+2. Create a Factory Functions for creating Players (`createPlayers()`)
+
+3. Created `startGameEvent()` to initiate Grid Activation for Game Play
+    - Calls inner Function `updatePlayerTurn` for Each squares in Active Grid collected from `showActiveGrid`
+        - `showActiveGrid` gets `gridPos` to return Active Grid of the same Position.
