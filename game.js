@@ -19,6 +19,7 @@
     }
 
     function getGamePlayInfo() {
+        // TODO Change Later
         const gameModeSelect = document.querySelector('input[name="play-type"]:checked') ?? document.querySelectorAll('input[name="play-type"]')[0]
 
         const gameModeSelection = gameModeSelect.value
@@ -87,9 +88,12 @@ const startGameEvent = function (classListNames, turnIndicator) {
         smallSquare.addEventListener('click', updatePlayerTurn, { once: true })
     })
 
+
     function updatePlayerTurn(event) {
         event.currentTarget.classList.add(classListNames[0])
         event.currentTarget.removeEventListener('click', updatePlayerTurn)
+
+        debugger
 
         document.documentElement.style.setProperty('--main-play', `var(${[colorValue[0]]})`)
 
@@ -108,15 +112,15 @@ const startGameEvent = function (classListNames, turnIndicator) {
         if (activeGrids.length > 1) {
 
             activeGrids.forEach(activeGrid =>
-                activeGrid.querySelectorAll('.grid-smallSquare:not(x-play):not(o-play)').forEach(smallGrid =>
-                    smallGrid.addEventListener('click', updatePlayerTurn)
+                activeGrid.querySelectorAll('.grid-smallSquare:not(.x-play):not(.o-play)').forEach(smallGrid =>
+                    smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
                 )
             )
 
         } else {
 
-            activeGrids.querySelectorAll('.grid-smallSquare:not(x-play):not(o-play)').forEach(smallGrid =>
-                smallGrid.addEventListener('click', updatePlayerTurn)
+            activeGrids.querySelectorAll('.grid-smallSquare:not(.x-play):not(.o-play)').forEach(smallGrid =>
+                smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
             )
 
         }
