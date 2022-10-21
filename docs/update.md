@@ -24,6 +24,26 @@
 
 2. Create a Factory Functions for creating Players (`createPlayers()`)
 
-3. Created `startGameEvent()` to initiate Grid Activation for Game Play
+## Game Action
+
+1. Created `startGameEvent()` to initiate Grid Activation for Game Play
     - Calls inner Function `updatePlayerTurn` for Each squares in Active Grid collected from `showActiveGrid`
         - `showActiveGrid` gets `gridPos` to return Active Grid of the same Position.
+
+2. `updatePlayerTurn` also calls below Functions on each play:
+    1. `gameCheckOnGrids` check on each Grid Square 
+    2. `gameWinCheck` check the whole game
+
+3. Both `gameCheckOnGrids` and `gameWinCheck` Returns False, if the wins are less than 3 (either for square or for Grid)
+    - Check only if the player makes a winning move
+    - Check Procedure:
+        1. Get all Sqaures / Grid Elements
+        2. Get Player Scored Ones
+        3. Get Indexes of Player Scored Ones from all the Grids
+        4. Check by over Winning Index Array (`winIndexes`)
+            1. 3 Horizontal Wins
+            2. 3 Vertical Wins
+            3. 2 Diagonal Wins
+        5. Return if Win
+        6. Check for Draw, Return Draw
+        7. Exits with Undefined

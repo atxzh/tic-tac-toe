@@ -50,25 +50,29 @@ const startGameEvent = function (classListNames, turnIndicator) {
         })
 
         // Check Game Win for Current Player
-        gameCheckOnGrids(event.currentTarget.parentElement, classListNames[0])
+        let checkOnGame = gameCheckOnGrids(event.currentTarget.parentElement, classListNames[0])
+
+        // Run only if a function exists
+        let gameStatus = checkOnGame ? checkOnGame() : false
+
+        if (gameStatus?.state) {
+            // TODO Stop Here
+            console.log('It\'s a Game Win for', gameStatus.result)
+        }
 
         // Create Listeners for smallSquare in Active Grid
-        activeGrids = getActiveGrid(event.currentTarget)
+        let activeGrids = getActiveGrid(event.currentTarget)
 
         if (activeGrids.length > 1) {
-
             activeGrids.forEach(activeGrid =>
                 activeGrid.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
                     smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
                 )
             )
-
         } else {
-
-            activeGrids.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
+            activeGrids[0].querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
                 smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
             )
-
         }
 
         // Alternate Values
@@ -129,9 +133,12 @@ const restartGame = function (sectionOverlay, turnIndicator) {
 };
 
 const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
+
     const allSquares = Array.from(currentMainGrid.querySelectorAll('main.grid-smallSquare'));
 
     const playerScoredSquares = Array.from(currentMainGrid.querySelectorAll(`main.grid-smallSquare.${currentPlayerClass}`));
+
+    if (playerScoredSquares.length < 3) return false
 
     let scoredIndexes = [];
 
@@ -139,13 +146,26 @@ const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
         scoredIndexes.push(allSquares.findIndex(square => square == scoredSquare))
     })
 
-    const winIndexes = [[0, 1, 2], [4, 5, 6], [7, 8, 9], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
+    const winIndexes = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ]
 
     for (let index of winIndexes) {
         if (index.every(value => scoredIndexes.includes(value))) {
             currentMainGrid.classList.add(currentPlayerClass)
             currentMainGrid.classList.remove('active')
-            break
+
+            // console.log('Player with', { currentPlayerClass }, 'won the Grid by', { scoredIndexes })
+
+            // NOTE: Partial Application
+            return gameWinCheck.bind(null, winIndexes, currentMainGrid.parentElement, currentPlayerClass)
         }
     }
 
@@ -153,10 +173,34 @@ const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
     if (!(currentMainGrid.querySelectorAll('main.grid-smallSquare:not(.x-play, .o-play)').length > 0)) {
         currentMainGrid.classList.add('draw')
         currentMainGrid.classList.remove('active')
+
+        return false
     }
 };
 
-const gameWinCheck = function () {
+const gameWinCheck = function (winIndexes, gameGrid, currentPlayerClass) {
+    const allGrids = Array.from(gameGrid.children)
+
+    const playerScoredGrids = Array.from(gameGrid.querySelectorAll(`.grid-bigSquare.${currentPlayerClass}`))
+
+    if (playerScoredGrids.length < 3)
+        return { state: false, result: undefined }
+
+    let scoredIndexes = []
+
+    playerScoredGrids.forEach(scoredGrid => {
+        scoredIndexes.push(allGrids.findIndex(grid => grid == scoredGrid))
+    })
+
+    for (let index of winIndexes) {
+        if (index.every(value => scoredIndexes.includes(value))) {
+            return { state: true, result: currentPlayerClass }
+        }
+    }
+
+    // All Game Draw
+    if (!(gameGrid.querySelectorAll(`.grid-bigSquare:not(.x-play, .o-play, .draw)`).length > 0))
+        return { state: false, result: 'draw' }
 
 };
 
