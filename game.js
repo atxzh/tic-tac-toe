@@ -80,7 +80,7 @@ const createPlayers = function (name, colorValue, firstPlay, gameMode) {
 
 const startGameEvent = function (classListNames, turnIndicator) {
 
-    let activeGrids = showActiveGrid()
+    let activeGrids = getActiveGrid()
 
     let colorValue = ['--color-o', '--color-x']
 
@@ -92,8 +92,6 @@ const startGameEvent = function (classListNames, turnIndicator) {
     function updatePlayerTurn(event) {
         event.currentTarget.classList.add(classListNames[0])
         event.currentTarget.removeEventListener('click', updatePlayerTurn)
-
-        debugger
 
         document.documentElement.style.setProperty('--main-play', `var(${[colorValue[0]]})`)
 
@@ -107,7 +105,16 @@ const startGameEvent = function (classListNames, turnIndicator) {
         colorValue = [colorValue[1], colorValue[0]]
         turnIndicator.forEach(indicator => indicator.classList.toggle('active'))
 
-        activeGrids = showActiveGrid(event.currentTarget)
+        // Check for Grid Draw
+        const currentMainGrid = event.currentTarget.parentElement
+
+        if (!(currentMainGrid.querySelectorAll('main.grid-smallSquare:not(.x-play):not(.o-play)').length > 0)) {
+            currentMainGrid.classList.add('draw')
+            currentMainGrid.classList.remove('active')
+        }
+
+        // Create Listeners for smallSquare in Active Grid
+        activeGrids = getActiveGrid(event.currentTarget)
 
         if (activeGrids.length > 1) {
 
@@ -130,9 +137,9 @@ const startGameEvent = function (classListNames, turnIndicator) {
 
 }
 
-const showActiveGrid = function (gridPos = null) {
+const getActiveGrid = function (gridPos = null) {
 
-    const gridBigSquares = Array.from(document.querySelectorAll('main.grid.grid-bigSquare:not(.x-play):not(.o-play)'));
+    const gridBigSquares = Array.from(document.querySelectorAll('main.grid.grid-bigSquare:not(.x-play):not(.o-play):not(.draw)'));
 
     if (!gridPos) {
         gridBigSquares.forEach(bigSquare => bigSquare.classList.add('active'))
