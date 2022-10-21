@@ -176,7 +176,7 @@ section.gameArea p:nth-of-type(2) {
 
     box-sizing: border-box;
 
-    color: white;
+    color: rgb(var(--LIGHT));
 }
 
 .grid-bigSquare {
@@ -206,7 +206,7 @@ section.gameArea p:nth-of-type(2) {
     justify-content: center;
 }
 
-.grid-bigSquare.active .grid-smallSquare:hover:not(.x-play):not(.o-play) {
+.grid-bigSquare.active .grid-smallSquare:hover:not(.x-play, .o-play) {
     background-color: rgb(var(--main-play), var(--HILIGHT-LOW));
 }
 
@@ -233,7 +233,7 @@ section.gameArea p:nth-of-type(2) {
 
     z-index: 2;
 
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 34 34" fill="none" stroke="white" stroke-width="4.46" stroke-linecap="round" stroke-linejoin="round" ><line x1="20" y1="2" x2="2" y2="20"></line><line x1="2" y1="2" x2="20" y2="20"></line></svg>') no-repeat center rgb(var(--color-x), var(--HILIGHT-HIGH))
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 34 34" fill="none" stroke="currentColor" stroke-width="4.46" stroke-linecap="round" stroke-linejoin="round" ><line x1="20" y1="2" x2="2" y2="20"></line><line x1="2" y1="2" x2="20" y2="20"></line></svg>') no-repeat center rgb(var(--color-x), var(--HILIGHT-HIGH))
 }
 
 .grid-bigSquare.o-play::before {
@@ -251,7 +251,7 @@ section.gameArea p:nth-of-type(2) {
 
     z-index: 2;
 
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 32 32" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') no-repeat center rgb(var(--color-o), var(--HILIGHT-HIGH))
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 32 32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') no-repeat center rgb(var(--color-o), var(--HILIGHT-HIGH))
 }
 
 .grid-bigSquare.draw::before {
@@ -269,7 +269,9 @@ section.gameArea p:nth-of-type(2) {
 
     z-index: 2;
 
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" ><path d="m16.8 33.3 7.2-7.2 7.2 7.2 2.1-2.1-7.2-7.2 7.2-7.2-2.1-2.1-7.2 7.2-7.2-7.2-2.1 2.1 7.2 7.2-7.2 7.2ZM9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h30q1.2 0 2.1.9.9.9.9 2.1v30q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h30V9H9v30ZM9 9v30V9Z"/></svg>') no-repeat center rgb(var(--DARK), var(--HILIGHT-HIGH))
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -3 30 30" fill="none" stroke="white" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round" class="feather feather-slash"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>') no-repeat center rgb(var(--GRAY), var(--HILIGHT-HIGH));
+
+    /* filter: var(--DARK-FILTER) */
 }
 
 .topLeft {
