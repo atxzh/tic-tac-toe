@@ -38,8 +38,9 @@ const startGameEvent = function (classListNames, turnIndicator) {
     })
 
     function updatePlayerTurn(event) {
+
+        // Add ClassList to current Event Element
         event.currentTarget.classList.add(classListNames[0])
-        event.currentTarget.removeEventListener('click', updatePlayerTurn)
 
         document.documentElement.style.setProperty('--main-play', `var(${[colorValue[0]]})`)
 
@@ -48,18 +49,8 @@ const startGameEvent = function (classListNames, turnIndicator) {
             smallSquare.removeEventListener('click', updatePlayerTurn)
         })
 
-        // Alternate Values
-        classListNames = [classListNames[1], classListNames[0]]
-        colorValue = [colorValue[1], colorValue[0]]
-        turnIndicator.forEach(indicator => indicator.classList.toggle('active'))
-
-        // Check for Grid Draw
-        const currentMainGrid = event.currentTarget.parentElement
-
-        if (!(currentMainGrid.querySelectorAll('main.grid-smallSquare:not(.x-play, .o-play)').length > 0)) {
-            currentMainGrid.classList.add('draw')
-            currentMainGrid.classList.remove('active')
-        }
+        // Check Game Win for Current Player
+        gameCheckOnGrids(event.currentTarget.parentElement, classListNames[0])
 
         // Create Listeners for smallSquare in Active Grid
         activeGrids = getActiveGrid(event.currentTarget)
@@ -79,6 +70,11 @@ const startGameEvent = function (classListNames, turnIndicator) {
             )
 
         }
+
+        // Alternate Values
+        classListNames = [classListNames[1], classListNames[0]]
+        colorValue = [colorValue[1], colorValue[0]]
+        turnIndicator.forEach(indicator => indicator.classList.toggle('active'))
 
         // console.log(event.currentTarget.classList[1])
     }
@@ -119,15 +115,48 @@ const getActiveGrid = function (gridPos = null) {
 
 const restartGame = function (sectionOverlay, turnIndicator) {
 
-    const grid = document.querySelector('main.grid')
+    const grid = document.querySelector('main.grid');
+    // TODO Also Add  grid after Win / Loss / Draw
 
-    let squares = document.querySelectorAll('.grid-bigSquare:is(.x-play, .o-play, .draw, .active), .grid-smallSquare:is(.x-play, .o-play)')
+    let squares = document.querySelectorAll('.grid-bigSquare:is(.x-play, .o-play, .draw, .active), .grid-smallSquare:is(.x-play, .o-play)');
 
-    squares.forEach(square => square.classList.remove('x-play', 'o-play', 'draw', 'active'))
+    squares.forEach(square => square.classList.remove('x-play', 'o-play', 'draw', 'active'));
 
-    sectionOverlay.style.setProperty('display', 'flex')
+    sectionOverlay.style.setProperty('display', 'flex');
 
-    turnIndicator.forEach(turn => turn.classList.remove('active'))
+    turnIndicator.forEach(turn => turn.classList.remove('active'));
+
+};
+
+const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
+    const allSquares = Array.from(currentMainGrid.querySelectorAll('main.grid-smallSquare'));
+
+    const playerScoredSquares = Array.from(currentMainGrid.querySelectorAll(`main.grid-smallSquare.${currentPlayerClass}`));
+
+    let scoredIndexes = [];
+
+    playerScoredSquares.forEach(scoredSquare => {
+        scoredIndexes.push(allSquares.findIndex(square => square == scoredSquare))
+    })
+
+    const winIndexes = [[0, 1, 2], [4, 5, 6], [7, 8, 9], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
+
+    for (let index of winIndexes) {
+        if (index.every(value => scoredIndexes.includes(value))) {
+            currentMainGrid.classList.add(currentPlayerClass)
+            currentMainGrid.classList.remove('active')
+            break
+        }
+    }
+
+    // For Game Draw
+    if (!(currentMainGrid.querySelectorAll('main.grid-smallSquare:not(.x-play, .o-play)').length > 0)) {
+        currentMainGrid.classList.add('draw')
+        currentMainGrid.classList.remove('active')
+    }
+};
+
+const gameWinCheck = function () {
 
 };
 

@@ -5,3 +5,13 @@
 
 2. SVG Sprites can't be used with css directly.
     - Need to specify `background-position`
+
+### Pseudo Classes
+
+1. `:has` always looks for the selector list of elements it contains
+    - `:is` instead looks for any selector it contains within
+    - `:where` is similar but has no specificity rule
+
+### JavaScript
+
+1. Using `Array.prototype.every` to return `true` if condition is successful for all the elements in the array

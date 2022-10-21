@@ -1,5 +1,7 @@
 ## Basics
 
+### UI Look
+
 1. Setting up a Header, Body and Footer with `header`, `section`, `main` and `footer`
 
 2. Setup Grid of Grids
@@ -12,12 +14,13 @@
 
 4. Create Accordion for User Play Selection
 
-## Creating P2P
+### Functions
 
 1. Create a Private Scoped Function for Game Start. Auto-Executed
     - Gets Player Info & Updates
     - Call `startGameEvent()`
     - Call to create Players using `createPlayers()`
+    - Add Event Listener on Reset Button, calling `restartGame()`
 
 2. Create a Factory Functions for creating Players (`createPlayers()`)
 
