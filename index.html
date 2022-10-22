@@ -146,6 +146,39 @@
                 <main class="grid-smallSquare botCenter"></main>
                 <main class="grid-smallSquare botRight"></main>
             </main>
+
+            <main class="grid-win hidden">
+                <main class="win-player x-play hidden">
+                    <svg class="icon play-icon" width="164" height="164">
+                        <use href="icons.svg#x-icon" style="color:rgb(var(--color-x))"></use>
+                    </svg>
+                    <p>Played By</p>
+                    <p>Player X</p>
+                    <p>won the Game</p>
+                </main>
+                <main class="win-player o-play hidden">
+                    <svg class="icon play-icon" width="164" height="164">
+                        <use href="icons.svg#o-icon" style="color:rgb(var(--color-o))"></use>
+                    </svg>
+                    <p>Played By</p>
+                    <p>Player O</p>
+                    <p>won the Game</p>
+                </main>
+                <main class="win-player draw hidden">
+                    <svg class="icon play-icon" width="164" height="164">
+                        <use href="icons.svg#draw" style="color:rgb(var(--LIGHT))"></use>
+                    </svg>
+                    <p></p>
+                    <p>Game is Draw</p>
+                    <p></p>
+                </main>
+                <button class="buttonBig-roundSquare buttonBig-roundSquare-play" id="gameReplay">
+                    <svg class="icon play" width="24" height="24">
+                        <use href="icons.svg#play"></use>
+                    </svg>
+                    <p>Replay Game</p>
+                </button>
+            </main>
         </main>
 
         <!-- ANCHOR Turn Indicator 2 -->
@@ -173,7 +206,7 @@
     </footer>
     <!-- !SECTION Footer -->
 
-    <section class="overlay">
+    <section class="overlay overlay-selection">
 
         <!-- SECTION Selection -->
         <section class="selection">
@@ -238,8 +271,14 @@
                     </div>
                 </div>
             </main>
+            <button class="buttonBig-roundSquare buttonBig-roundSquare-qmark" id="q-mark">
+                <svg class="icon" width="24" height="24">
+                    <use href="icons.svg#question-mark"></use>
+                </svg>
+                <p>Need Help</p>
+            </button>
             <button class="buttonBig-roundSquare buttonBig-roundSquare-play" id="gameStart">
-                <svg class="icon play" width="28" height="28">
+                <svg class="icon play" width="24" height="24">
                     <use href="icons.svg#play"></use>
                 </svg>
                 <p>Play Game</p>
@@ -248,6 +287,46 @@
         <!-- !SECTION Player Selection -->
 
     </section>
+
+    <section class="overlay overlay-help hidden">
+
+        <!-- SECTION Help -->
+        <section class="help-window">
+            <h3>How to Play ?</h3>
+            1. First Player (Playing <strong>X</strong>) is allowed to Play in any Grid (All Grids are Active)
+            2. The Player Chooses the Position (Square) on that Grid
+            - and the same Position of the Square Choosen by First Player is the active Grid on which the second Player
+            Plays
+            - Second Player has to play on that Active Grid
+            - <emphasis> example:
+                1. Player X Chooses Top Left of a Square in the Center Grid
+                2. Since the Choosen Square is Top Left, the next Active Grid is Top Left
+                3. Player O plays the Top Left Grid and Chooses a Square Center
+                4. Choosen Square is Center so, Center Grid Becomes Active
+                5.Player X chooses a Square in Center Grid
+            </emphasis>
+            3. A Grid is captured by the Player if he wins in that Grid. The same Grid will never become Active Grid.
+            - If the same Position of a Square is Played
+            - Other Grids Become Active
+            - <emphasis> example:
+                1. Player X wins Top Left Grid
+                2. If Player O chooses the Top Left Square in any Active Grid, Player X will be allowed play any other
+                Grid
+                3. Player X will be able to play any Grid except the Top Left Grid (or any Grid won or that which
+                becomes draw)
+            </emphasis>
+            4. A Grid Becomes Draw if there are no Squares to Play
+            5. The final Game is won if a Player Wins 3 Grids in the Order of a Normal Tic-Tac-Toe
+
+            <h3>Rules</h3>
+            1. Players can only Play in an Active Grid (Black Colored)
+            2. Players can't play in Grid won before, or that becomes draw
+            3.
+        </section>
+        <!-- !SECTION Help -->
+
+    </section>
+
 
     <script src="game.js"></script>
 

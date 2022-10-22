@@ -21,7 +21,8 @@
     --PLAY: 84, 163, 0;
     --PLAY-FILTER: invert(16%) sepia(21%) saturate(5240%) hue-rotate(93deg) brightness(94%) contrast(104%);
     --HELP: 250, 163, 7;
-    --HELP-FILTER: invert(71%) sepia(46%) saturate(6833%) hue-rotate(6deg) brightness(105%) contrast(96%);
+    --HELP-FILTER-LIGHT: invert(78%) sepia(28%) saturate(6323%) hue-rotate(358deg) brightness(100%) contrast(97%);
+    --HELP-FILTER-DARK: invert(51%) sepia(84%) saturate(5474%) hue-rotate(33deg) brightness(54%) contrast(98%);
     --RESET: 208, 0, 0;
     --RESET-FILTER: invert(11%) sepia(100%) saturate(5323%) hue-rotate(4deg) brightness(85%) contrast(116%);
 
@@ -35,6 +36,10 @@ body {
 
     display: flex;
     flex-flow: column nowrap;
+}
+
+.hidden {
+    display: none !important;
 }
 
 header {
@@ -101,11 +106,7 @@ button {
 }
 
 .buttonBig-roundSquare {
-    background-color: rgb(var(--PLAY));
-
-    padding: .25rem 1rem;
-
-    gap: 0rem;
+    padding: .25rem .5rem;
 
     font-weight: 700;
 
@@ -113,10 +114,11 @@ button {
 }
 
 .buttonBig-revealLabel-qmark:hover {
-    filter: var(--HELP-FILTER);
+    filter: var(--HELP-FILTER-LIGHT);
 }
 
-.buttonBig-revealLabel-reset:hover {
+.buttonBig-revealLabel-reset:hover,
+.buttonBig-roundSquare-reset>* {
     filter: var(--RESET-FILTER);
 }
 
@@ -134,31 +136,28 @@ section.gameArea {
     opacity: 0;
 }
 
-section.gameArea p {
+.turn p {
     text-align: center;
 
     margin: .25rem;
 
     font-size: 1.15rem;
+    font-weight: 500;
 }
 
-section.gameArea p:first-of-type {
+.turn p:first-of-type {
     font-size: 1.5rem;
     font-weight: 700;
 
     display: flex;
     align-items: center;
     gap: .2rem;
-
-    margin-bottom: .45rem;
 }
 
-section.gameArea p:nth-of-type(2) {
-    font-weight: 400;
+.turn p:nth-of-type(2) {
+    font-weight: 600;
     font-size: 0.8rem;
-    color: rgb(var(--NORM));
-
-    margin: -.05rem;
+    color: rgb(var(--ACTIVE), var(--HILIGHT-LOW));
 }
 
 .grid {
@@ -177,6 +176,8 @@ section.gameArea p:nth-of-type(2) {
     box-sizing: border-box;
 
     color: rgb(var(--LIGHT));
+
+    position: relative;
 }
 
 .grid-bigSquare {
@@ -290,6 +291,52 @@ section.gameArea p:nth-of-type(2) {
     border-bottom-right-radius: 12px;
 }
 
+main.grid-win {
+    position: absolute;
+
+    background-color: rgb(var(--DARK), calc(var(--HILIGHT-HIGH) + 0.15));
+
+    width: 80%;
+    height: 80%;
+
+    top: 10%;
+    left: 10%;
+
+    border-radius: 12px;
+
+    grid-area: 1 / 1 / -1 / -1;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    color: rgb(var(--ACTIVE));
+}
+
+main.win-player {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+main.win-player:not(.draw) p:first-of-type,
+main.win-player:not(.draw) p:last-of-type {
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    padding-top: 1rem;
+}
+
+main.win-player p:last-of-type {
+    padding: .5rem 0rem;
+}
+
+main.win-player p:nth-of-type(2) {
+    font-size: 3rem;
+    color: rgb(var(--GRAY));
+}
+
 /* !SECTION Game Area */
 
 section.overlay {
@@ -396,9 +443,13 @@ section.overlay {
     height: 1.5rem;
     border-radius: 2rem;
 
-    border: 2px solid rgb(var(--ACTIVE));
+    /* border: 2px solid rgb(var(--ACTIVE)); */
 
     padding: .2rem .75rem;
+}
+
+.playerInfo>input[type="text"]:focus-within {
+    border: none;
 }
 
 .hidAccord {
@@ -462,7 +513,7 @@ section.overlay {
 
     position: relative;
 
-    border: 2px solid rgb(var(--ACTIVE));
+    /* border: 2px solid rgb(var(--ACTIVE)); */
 }
 
 .color-choice>input {
@@ -474,6 +525,24 @@ section.overlay {
     position: absolute;
     top: -10px;
     left: -10px;
+}
+
+/* .buttonLayout {
+    display: flex;
+    gap: .5rem;
+    justify-content: space-around;
+} */
+
+.buttonBig-roundSquare-qmark {
+    background-color: rgb(var(--HELP));
+}
+
+.buttonBig-roundSquare-qmark>* {
+    filter: var(--HELP-FILTER-DARK);
+}
+
+.buttonBig-roundSquare-play {
+    background-color: rgb(var(--PLAY));
 }
 
 .buttonBig-roundSquare-play>* {
