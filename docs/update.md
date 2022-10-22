@@ -47,3 +47,19 @@
         5. Return if Win
         6. Check for Draw, Return Draw
         7. Exits with Undefined
+
+4. `gameCheckOnGrids` returns a binded function of `gameWinCheck`, if the `gameCheckOnGrids` is a win
+    - The Function is later run
+
+5. `gameWinCheck` returns `gameStatus` with `{state: true | false, result}`
+    - `gameStatus.result` can be:
+        - `undefined`
+        - `currentPlayerClass`
+        - `draw` a string
+
+6. If the `gameStatus.result` is checked with the `playerInfo` and the right `playerInfo.playerName` is sent to `displayGameResult`
+    - The `displayGameResult` is returns the `resultDisplay`:
+        - `resultDisplay` shows the current gameState: Win by X, Win by O or Draw
+
+7. The result of `displayGameResult` is stored in a variable
+    - The stored variable is sent to `restartGame` function. That triggers the game Restart
