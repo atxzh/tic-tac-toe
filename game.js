@@ -27,91 +27,140 @@ const createPlayers = function (name, colorValue, firstPlay, gameMode) {
     return { playerName, playerColor, playerClassChoice, playerType }
 }
 
-const startGameEvent = function (playerInfo, turnIndicator) {
+const startGame = (function () {
 
-    let classListNames = [playerInfo[0].playerClassChoice, playerInfo[1].playerClassChoice];
-
-    getActiveGrid()
-
-    const selectionOverlay = document.querySelector('section.overlay-selection');
-
-    selectionOverlay.classList.add('hidden');
-
-    let colorValue = ['--color-o', '--color-x'];
-
-    const updatePlayerTurn = function updatePlayerTurn(event) {
+    const _updatePlayerTurn = function (event) {
 
         // Add ClassList to current Event Element
-        event.currentTarget.classList.add(classListNames[0])
-
-        document.documentElement.style.setProperty('--main-play', `var(${[colorValue[0]]})`)
+        event.currentTarget.classList.add(startGame.classListNames[0])
 
         // Remove all Event Listener
         document.querySelectorAll('main.grid-smallSquare:not(.x-play, .o-play)').forEach(smallSquare => {
-            smallSquare.removeEventListener('click', updatePlayerTurn)
+            smallSquare.removeEventListener('click', _updatePlayerTurn)
         })
 
-        // Check Game Win for Current Player
-        let checkOnGame = gameCheckOnGrids(event.currentTarget.parentElement, classListNames[0])
+        if (startGame.gameCheckAfterEvent(
+            event.currentTarget.parentElement, startGame.classListNames[0]
+        ))
+            return
 
-        // Run only if a function exists
-        if (typeof checkOnGame == 'function')
-            var gameStatus = checkOnGame()
+        startGame.alternateValues()
 
-        if (gameStatus?.state) {
-            // TODO Stop Here
-            // End Game
-            const winPlayerName = playerInfo.find(player =>
-                player.playerClassChoice == gameStatus.result)
+        let activeGrids = startGame.createListenerOnActive(event.currentTarget, startGame.playerInfo[0].playerType)
 
-            console.log(winPlayerName)
-
-            const replayGameButton = document.getElementById('gameReplay');
-
-            const gameWinDisplay = displayGameResult(gameStatus.result, winPlayerName, turnIndicator)
-
-            return replayGameButton.addEventListener('click', (e) =>
-                restartGame.call(e, selectionOverlay, null, gameWinDisplay)
-            )
-        }
-
-        // Create Listeners for smallSquare in Active Grid
-        let activeGrids = getActiveGrid(event.currentTarget)
-
-        if (activeGrids.length > 1) {
-            activeGrids.forEach(activeGrid =>
-                activeGrid.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
-                    smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
-                )
-            )
-        } else {
-            activeGrids = activeGrids[0] || activeGrids
-
-            activeGrids.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
-                smallGrid.addEventListener('click', updatePlayerTurn, { once: true })
-            )
-        }
-
-        // Alternate Values
-        classListNames = [classListNames[1], classListNames[0]]
-        colorValue = [colorValue[1], colorValue[0]]
-        turnIndicator.forEach(indicator => indicator.classList.toggle('active'))
+        if (startGame.playerInfo[0].playerType == 'Bot')
+            botPlay.updateBotTurn(startGame.playerInfo[0].playerClassChoice, activeGrids)
 
         // console.log(event.currentTarget.classList[1])
     }
 
-    // Adding Event Listener to each square
-    document.querySelectorAll('main.grid-smallSquare').forEach(smallSquare => {
-        smallSquare.addEventListener('click', updatePlayerTurn, { once: true });
-    })
+    return {
+        gameCheckAfterEvent: function (currentMainGrid, currentPlayerClass) {
 
-    const restartGameButton = document.getElementById('gameRestart');
+            // Check Game Win for Current Player
+            let checkOnGame = gameCheckOnGrids(currentMainGrid, currentPlayerClass)
 
-    restartGameButton.addEventListener('click', (e) =>
-        restartGame.call(e, selectionOverlay, turnIndicator)
-    )
+            // Run only if a function exists
+            if (typeof checkOnGame == 'function')
+                var gameStatus = checkOnGame()
 
-};
+            if (gameStatus?.state) {
+                // End Game
+                const winPlayerName = this.playerInfo.find(player =>
+                    player.playerClassChoice == gameStatus.result)
+
+                // console.log(winPlayerName)
+
+                const replayGameButton = document.getElementById('gameReplay');
+
+                const gameWinDisplay = displayGameResult(gameStatus.result, winPlayerName, this.turnIndicator)
+
+                replayGameButton.addEventListener('click', (e) =>
+                    restartGame.call(e, this.selectionOverlay, null, gameWinDisplay)
+                )
+
+                return gameWinDisplay != undefined
+            }
+
+        },
+
+        alternateValues: function () {
+
+            // Alternate Values
+            this.playerInfo = [this.playerInfo[1], this.playerInfo[0]]
+
+            this.classListNames = [this.classListNames[1], this.classListNames[0]]
+
+            this.colorValue = [this.colorValue[1], this.colorValue[0]]
+
+            this.turnIndicator.forEach(indicator => indicator.classList.toggle('active'))
+
+            document.documentElement.style.setProperty('--main-play', `var(${[this.colorValue[1]]})`)
+
+        },
+
+        createListenerOnActive: function (activeCell, activePlayerType) {
+            // Create Listeners for smallSquare in Active Grid
+            let activeGrids = getActiveGrid(activeCell)
+
+            if (!(activePlayerType == 'Bot')) {
+                if (activeGrids.length > 1) {
+                    activeGrids.forEach(activeGrid =>
+                        activeGrid.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
+                            smallGrid.addEventListener('click', _updatePlayerTurn, { once: true })
+                        )
+                    )
+                } else {
+                    activeGrids = activeGrids[0] || activeGrids
+
+                    activeGrids.querySelectorAll('.grid-smallSquare:not(.x-play, .o-play)').forEach(smallGrid =>
+                        smallGrid.addEventListener('click', _updatePlayerTurn, { once: true })
+                    )
+                }
+            }
+            else
+                return activeGrids
+
+        },
+
+        startGameEvent: function (playerInfo, turnIndicator) {
+
+            this.playerInfo = playerInfo
+
+            this.classListNames = [playerInfo[0].playerClassChoice, playerInfo[1].playerClassChoice];
+
+            this.turnIndicator = turnIndicator
+
+            getActiveGrid()
+
+            this.selectionOverlay = document.querySelector('section.overlay-selection');
+
+            this.selectionOverlay.classList.add('hidden');
+
+            this.colorValue = ['--color-o', '--color-x'];
+
+            const restartGameButton = document.getElementById('gameRestart');
+
+            restartGameButton.addEventListener('click', (e) =>
+                restartGame.call(e, this.selectionOverlay, this.turnIndicator)
+            )
+
+            // Adding Event Listener to each square
+            if (playerInfo[0].playerType == `Person`) {
+
+                document.querySelectorAll('main.grid-smallSquare').forEach(smallSquare => {
+                    smallSquare.addEventListener('click', _updatePlayerTurn, { once: true });
+                })
+
+            } else {
+
+                botPlay.updateBotTurn(playerInfo[0].playerClassChoice)
+
+            }
+
+        }
+    }
+})();
 
 const getActiveGrid = function (gridPos = null) {
 
@@ -151,9 +200,9 @@ const restartGame = function (sectionOverlay, turnIndicator, gameWinDisplay) {
     if (this.currentTarget.id == `gameReplay`) {
         gameWinDisplay.classList.add('hidden')
         gameWinDisplay.parentElement.classList.add('hidden')
-    }
-    else
+    } else {
         turnIndicator.forEach(turn => turn.classList.remove('active'))
+    }
 
     let squares = document.querySelectorAll('.grid-bigSquare:is(.x-play, .o-play, .draw, .active), .grid-smallSquare:is(.x-play, .o-play)');
 
@@ -209,6 +258,7 @@ const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
 };
 
 const gameWinCheck = function (winIndexes, gameGrid, currentPlayerClass) {
+
     const allGrids = Array.from(gameGrid.children)
 
     const playerScoredGrids = Array.from(gameGrid.querySelectorAll(`.grid-bigSquare.${currentPlayerClass}`))
@@ -259,7 +309,7 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
 (function () {
     const startGameButton = document.getElementById('gameStart');
 
-    function updatePlayerInfo(playerA, playerB) {
+    function _updatePlayerInfo(playerA, playerB) {
 
         const turnIndicator = document.querySelectorAll('.turn');
 
@@ -292,9 +342,9 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
 
     }
 
-    function getGamePlayInfo() {
+    function _getGamePlayInfo() {
         // TODO Change Later
-        const gameModeSelect = document.querySelector('input[name="play-type"]:checked') ?? document.querySelectorAll('input[name="play-type"]')[0]
+        const gameModeSelect = document.querySelector('input[name="play-type"]:checked') ?? document.querySelectorAll('input[name="play-type"]')[1]
 
         const gameModeSelection = gameModeSelect.value;
 
@@ -312,12 +362,12 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
             infoSection2.lastElementChild.checked ?? false,
             gameModeSelection);
 
-        const [turnIndicator, players] = updatePlayerInfo(playerA, playerB);
+        const [turnIndicator, players] = _updatePlayerInfo(playerA, playerB);
 
-        startGameEvent(players, turnIndicator);
+        startGame.startGameEvent(players, turnIndicator);
 
     }
 
-    startGameButton.addEventListener('click', getGamePlayInfo);
+    startGameButton.addEventListener('click', _getGamePlayInfo);
 
 })();
