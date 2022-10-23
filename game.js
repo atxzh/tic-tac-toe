@@ -14,7 +14,7 @@ const createPlayers = function (name, colorValue, firstPlay, gameMode) {
 
     };
 
-    const playerColor = hexToRGB(colorValue || '#1766b5')
+    const playerColor = hexToRGB(colorValue)
 
     const playerClassChoice = firstPlay ?
         playerName == 'Bot' ?
@@ -263,16 +263,32 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
 
         const turnIndicator = document.querySelectorAll('.turn');
 
-        turnIndicator[0].lastElementChild.innerText = playerA.playerName;
         turnIndicator[0].classList.add('active')
 
-        document.documentElement.style.setProperty('--color-x', playerA.playerColor)
+        if (playerA.playerClassChoice == 'x-play') {
+            turnIndicator[0].lastElementChild.innerText = playerA.playerName;
 
-        turnIndicator[1].lastElementChild.innerText = playerB.playerName;
+            turnIndicator[1].lastElementChild.innerText = playerB.playerName;
 
-        document.documentElement.style.setProperty('--color-o', playerB.playerColor)
+            document.documentElement.style.setProperty('--color-x', playerA.playerColor);
 
-        return turnIndicator
+            document.documentElement.style.setProperty('--color-o', playerB.playerColor);
+
+            return [turnIndicator, [playerA, playerB]]
+
+        } else {
+
+            turnIndicator[0].lastElementChild.innerText = playerB.playerName;
+
+            turnIndicator[1].lastElementChild.innerText = playerA.playerName;
+
+            document.documentElement.style.setProperty('--color-x', playerB.playerColor)
+
+            document.documentElement.style.setProperty('--color-o', playerA.playerColor)
+
+            return [turnIndicator, [playerB, playerA]]
+
+        }
 
     }
 
@@ -292,13 +308,13 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
             infoSection2.lastElementChild.checked ?? true);
 
         let playerB = createPlayers(
-            infoSection2.firstElementChild?.value ?? '', infoSection2.lastElementChild.firstElementChild?.value,
+            infoSection2.firstElementChild?.value ?? '', infoSection2.lastElementChild.firstElementChild?.value ?? '#1766b5',
             infoSection2.lastElementChild.checked ?? false,
             gameModeSelection);
 
-        const turnIndicator = updatePlayerInfo(playerA, playerB);
+        const [turnIndicator, players] = updatePlayerInfo(playerA, playerB);
 
-        startGameEvent([playerA, playerB], turnIndicator);
+        startGameEvent(players, turnIndicator);
 
     }
 
