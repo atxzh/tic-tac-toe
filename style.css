@@ -326,6 +326,12 @@ main.win-player:not(.draw) p:last-of-type {
     font-weight: 600;
 
     padding-top: 1rem;
+    padding-bottom: .25rem;
+}
+
+main.win-player:not(.draw) p:last-of-type {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
 }
 
 main.win-player p:last-of-type {
