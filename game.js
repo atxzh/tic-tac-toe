@@ -46,7 +46,7 @@ const startGame = (function () {
 
         startGame.alternateValues()
 
-        let activeGrids = startGame.createListenerOnActive(event.currentTarget, startGame.playerInfo[0].playerType)
+        let activeGrids = startGame.createListenersOnActive(event.currentTarget, startGame.playerInfo[0].playerType)
 
         if (startGame.playerInfo[0].playerType == 'Bot')
             botPlay.updateBotTurn(startGame.playerInfo[0].playerClassChoice, activeGrids)
@@ -99,7 +99,7 @@ const startGame = (function () {
 
         },
 
-        createListenerOnActive: function (activeCell, activePlayerType) {
+        createListenersOnActive: function (activeCell, activePlayerType) {
             // Create Listeners for smallSquare in Active Grid
             let activeGrids = getActiveGrid(activeCell)
 
@@ -131,7 +131,7 @@ const startGame = (function () {
 
             this.turnIndicator = turnIndicator
 
-            getActiveGrid()
+            const activeGrids = getActiveGrid()
 
             this.selectionOverlay = document.querySelector('section.overlay-selection');
 
@@ -154,7 +154,7 @@ const startGame = (function () {
 
             } else {
 
-                botPlay.updateBotTurn(playerInfo[0].playerClassChoice)
+                botPlay.updateBotTurn(playerInfo[0].playerClassChoice, activeGrids)
 
             }
 
@@ -162,14 +162,14 @@ const startGame = (function () {
     }
 })();
 
-const getActiveGrid = function (gridPos = null) {
+const getActiveGrid = function (gridPos) {
 
     const gridBigSquares = Array.from(document.querySelectorAll('main.grid.grid-bigSquare:not(.x-play, .o-play, .draw)'));
 
     if (!gridPos) {
         gridBigSquares.forEach(bigSquare => bigSquare.classList.add('active'))
 
-        return false
+        return gridBigSquares
     }
 
     gridBigSquares.forEach(bigSquare => bigSquare.classList.remove('active'))
