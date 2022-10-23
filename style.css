@@ -309,7 +309,7 @@ main.grid-win {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
 
     color: rgb(var(--ACTIVE));
 }
