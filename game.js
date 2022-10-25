@@ -1,3 +1,4 @@
+// Factory Functions for Creating Players
 const createPlayers = function (name, colorValue, firstPlay, gameMode) {
     const playerName = name.length < 1 ?
         firstPlay ?
@@ -29,10 +30,23 @@ const createPlayers = function (name, colorValue, firstPlay, gameMode) {
 
 const startGame = (function () {
 
+    const winIndexes = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
     const _updatePlayerTurn = function (event) {
 
         // Add ClassList to current Event Element
         event.currentTarget.classList.add(startGame.classListNames[0])
+
+        startGame.setLastActiveSquare(event.currentTarget)
 
         // Remove all Event Listener
         document.querySelectorAll('main.grid-smallSquare:not(.x-play, .o-play)').forEach(smallSquare => {
@@ -42,23 +56,36 @@ const startGame = (function () {
         if (startGame.gameCheckAfterEvent(
             event.currentTarget.parentElement, startGame.classListNames[0]
         ))
-            return
+            return document.getElementById('gameRestart').classList.add('hidden')
 
         startGame.alternateValues()
 
         let activeGrids = startGame.createListenersOnActive(event.currentTarget, startGame.playerInfo[0].playerType)
 
         if (startGame.playerInfo[0].playerType == 'Bot')
-            botPlay.updateBotTurn(startGame.playerInfo[0].playerClassChoice, activeGrids)
+            botPlay.updateBotTurn(startGame.playerInfo[0].playerClassChoice, activeGrids, winIndexes)
 
         // console.log(event.currentTarget.classList[1])
     }
 
     return {
+        setLastActiveSquare: function (square) {
+
+            debugger
+
+            if (this?.lastActiveSquare)
+                this.lastActiveSquare.style.removeProperty('filter')
+
+            this.lastActiveSquare = square
+
+            this.lastActiveSquare.style.setProperty('filter', 'brightness(255%) hue-rotate(25deg)')
+
+        },
+
         gameCheckAfterEvent: function (currentMainGrid, currentPlayerClass) {
 
             // Check Game Win for Current Player
-            let checkOnGame = gameCheckOnGrids(currentMainGrid, currentPlayerClass)
+            let checkOnGame = gameCheckOnGrids(currentMainGrid, currentPlayerClass, winIndexes)
 
             // Run only if a function exists
             if (typeof checkOnGame == 'function')
@@ -100,6 +127,7 @@ const startGame = (function () {
         },
 
         createListenersOnActive: function (activeCell, activePlayerType) {
+
             // Create Listeners for smallSquare in Active Grid
             let activeGrids = getActiveGrid(activeCell)
 
@@ -141,6 +169,8 @@ const startGame = (function () {
 
             const restartGameButton = document.getElementById('gameRestart');
 
+            restartGameButton.classList.remove('hidden')
+
             restartGameButton.addEventListener('click', (e) =>
                 restartGame.call(e, this.selectionOverlay, this.turnIndicator)
             )
@@ -154,7 +184,7 @@ const startGame = (function () {
 
             } else {
 
-                botPlay.updateBotTurn(playerInfo[0].playerClassChoice, activeGrids)
+                botPlay.updateBotTurn(playerInfo[0].playerClassChoice, activeGrids, winIndexes)
 
             }
 
@@ -202,6 +232,13 @@ const restartGame = function (sectionOverlay, turnIndicator, gameWinDisplay) {
         gameWinDisplay.parentElement.classList.add('hidden')
     } else {
         turnIndicator.forEach(turn => turn.classList.remove('active'))
+        this.currentTarget.classList.add('hidden')
+    }
+
+    if (startGame?.lastActiveSquare) {
+        startGame.lastActiveSquare.style.removeProperty('filter')
+
+        delete startGame.lastActiveSquare
     }
 
     let squares = document.querySelectorAll('.grid-bigSquare:is(.x-play, .o-play, .draw, .active), .grid-smallSquare:is(.x-play, .o-play)');
@@ -211,7 +248,7 @@ const restartGame = function (sectionOverlay, turnIndicator, gameWinDisplay) {
     sectionOverlay.classList.remove('hidden');
 };
 
-const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
+const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass, winIndexes) {
 
     const allSquares = Array.from(currentMainGrid.querySelectorAll('main.grid-smallSquare'));
 
@@ -224,17 +261,6 @@ const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass) {
     playerScoredSquares.forEach(scoredSquare => {
         scoredIndexes.push(allSquares.findIndex(square => square == scoredSquare))
     })
-
-    const winIndexes = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ]
 
     for (let index of winIndexes) {
         if (index.every(value => scoredIndexes.includes(value))) {
@@ -285,8 +311,6 @@ const gameWinCheck = function (winIndexes, gameGrid, currentPlayerClass) {
 };
 
 const displayGameResult = function (gameResult, player, turnIndicator) {
-
-    debugger
 
     const winDisplayGrid = document.querySelector('main.grid-win');
 
