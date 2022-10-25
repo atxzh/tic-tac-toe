@@ -63,15 +63,13 @@ const startGame = (function () {
         let activeGrids = startGame.createListenersOnActive(event.currentTarget, startGame.playerInfo[0].playerType)
 
         if (startGame.playerInfo[0].playerType == 'Bot')
-            botPlay.updateBotTurn(startGame.playerInfo[0].playerClassChoice, activeGrids, winIndexes)
+            setTimeout(botPlay.updateBotTurn, 200, startGame.playerInfo[0].playerClassChoice, activeGrids, winIndexes)
 
         // console.log(event.currentTarget.classList[1])
     }
 
     return {
         setLastActiveSquare: function (square) {
-
-            debugger
 
             if (this?.lastActiveSquare)
                 this.lastActiveSquare.style.removeProperty('filter')
@@ -184,7 +182,7 @@ const startGame = (function () {
 
             } else {
 
-                botPlay.updateBotTurn(playerInfo[0].playerClassChoice, activeGrids, winIndexes)
+                setTimeout(botPlay.updateBotTurn, 200, playerInfo[0].playerClassChoice, activeGrids, winIndexes)
 
             }
 
