@@ -23,3 +23,8 @@
     - Use `.bind()` as a way to partially set arguments and return the function later for other use.
 
 
+### Others
+
+1. Minimax is fucking my life
+
+

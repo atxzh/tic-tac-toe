@@ -17,7 +17,7 @@
     <header>
         <h1>Ultimate Tic-Tac-Toe</h1>
         <div class="head">
-            <button class="buttonBig-revealLabel buttonBig-revealLabel-qmark">
+            <button class="buttonBig-revealLabel buttonBig-revealLabel-qmark hidden">
                 <svg class="icon question-mark" width="28" height="28">
                     <use href="icons.svg#question-mark"></use>
                 </svg>
@@ -288,43 +288,176 @@
 
     </section>
 
-    <section class="overlay overlay-help hidden">
+    <section class="overlay hidden">
+        <section class="overlay-help">
+            <button class="buttonSmall-noLabel buttonSmall-noLabel-close">
+                <svg class="icon question-mark" width="16" height="16">
+                    <use href="icons.svg#x-icon"></use>
+                </svg>
+            </button>
 
-        <!-- SECTION Help -->
-        <section class="help-window">
-            <h3>How to Play ?</h3>
-            1. First Player (Playing <strong>X</strong>) is allowed to Play in any Grid (All Grids are Active)
-            2. The Player Chooses the Position (Square) on that Grid
-            - and the same Position of the Square Choosen by First Player is the active Grid on which the second Player
-            Plays
-            - Second Player has to play on that Active Grid
-            - <emphasis> example:
-                1. Player X Chooses Top Left of a Square in the Center Grid
-                2. Since the Choosen Square is Top Left, the next Active Grid is Top Left
-                3. Player O plays the Top Left Grid and Chooses a Square Center
-                4. Choosen Square is Center so, Center Grid Becomes Active
-                5.Player X chooses a Square in Center Grid
-            </emphasis>
-            3. A Grid is captured by the Player if he wins in that Grid. The same Grid will never become Active Grid.
-            - If the same Position of a Square is Played
-            - Other Grids Become Active
-            - <emphasis> example:
-                1. Player X wins Top Left Grid
-                2. If Player O chooses the Top Left Square in any Active Grid, Player X will be allowed play any other
-                Grid
-                3. Player X will be able to play any Grid except the Top Left Grid (or any Grid won or that which
-                becomes draw)
-            </emphasis>
-            4. A Grid Becomes Draw if there are no Squares to Play
-            5. The final Game is won if a Player Wins 3 Grids in the Order of a Normal Tic-Tac-Toe
+            <!-- SECTION Help -->
+            <section class="help-window">
+                <h3>Some Terminologies</h3>
+                <table>
+                    <tr>
+                        <td colspan="2"><img src="docs/assets/Screenshot_20221025_201540.png" alt="grid"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p><strong>Active Grid</strong></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><img src="docs/assets/Screenshot_20221025_203902.png" alt="inactive grid"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p><strong>Inactive Grid</strong></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="docs/assets/Screenshot_20221025_204038.png" alt=""></td>
+                        <td><img src="docs/assets/Screenshot_20221025_204029.png" alt=""></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Normal Square</p>
+                        </td>
+                        <td>
+                            <p>Last Active Square</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>Square</strong> inside the Grid</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Last Played Squares have different hue and brightness level</td>
+                    </tr>
 
-            <h3>Rules</h3>
-            1. Players can only Play in an Active Grid (Black Colored)
-            2. Players can't play in Grid won before, or that becomes draw
-            3.
+                </table>
+                <br>
+                <hr>
+                <br>
+                <h3>How to Play ?</h3>
+                <ol>
+                    <li>
+                        <p>First Player (Playing <strong>X</strong>) is allowed to Play in any Grid (All Grids are
+                            Active)
+                        </p>
+                    </li>
+
+                    <li>
+                        <p>The Player Chooses the Position (Square) to Play on that Grid</p>
+                        <ul>
+                            <li>
+                                <p>
+                                    and the same Position of the Square Choosen (ex: topLeft Square) by First Player is
+                                    the
+                                    active
+                                    Grid (topLeft Grid) on which the second Player
+                                    Plays
+                                </p>
+                            </li>
+
+                            <li>
+                                <p>Second Player has to play on that Active Grid</p>
+                            </li>
+
+                            <li>
+                                <em> example:
+                                    <ol>
+                                        <li>
+                                            <p><strong>Player X</strong> Chooses Top Left of a Square in the Center Grid
+                                            </p>
+                                            <img src="docs/assets/Screenshot_20221025_201908.png" alt="first play">
+                                        </li>
+                                        <li>
+                                            <p>Since the Choosen Square is Top Left, the next Active Grid is Top Left
+                                            </p>
+                                            <img src="docs/assets/Screenshot_20221025_202011.png" alt="second play">
+                                        </li>
+                                        <li>
+                                            <p><strong>Player O</strong> plays the Top Left Grid and Chooses a Square
+                                                Center
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>Choosen Square is Center so, Center Grid Becomes Active for
+                                                <strong>Player X</strong>
+                                            </p>
+                                            <img src="docs/assets/Screenshot_20221025_202259.png"
+                                                alt="second play after">
+                                        </li>
+                                        <li>
+                                            <p><strong>Player X</strong> chooses a Square in Center Grid</p>
+                                            <img src="docs/assets/Screenshot_20221025_202324.png" alt="third play">
+                                        </li>
+                                    </ol>
+                                </em>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>
+                            A Grid is captured by the Player if he wins in that Grid. The same Grid will never become
+                            Active
+                            Grid.
+                        </p>
+                        <ul>
+
+                            <li>If the same Position of a Square is Played in any Other Grid, the Other Grids Become
+                                Active</li>
+                            <li>
+                                <em> example:
+                                    <ol>
+                                        <li>
+                                            <p><strong>Player O</strong> wins Top Left Grid</p>
+                                        </li>
+                                        <li>
+                                            <p>If <strong>Player X</strong> chooses the Top Left Square in an Active
+                                                Grid,
+                                                <strong>Player O</strong> will be
+                                                allowed to play any other Grid
+                                            </p>
+                                            <img src="docs/assets/Screenshot_20221025_202617.png" alt="">
+                                        </li>
+                                        <li>
+                                            <p><strong>Player O</strong> will be able to play any Grid except the Top
+                                                Left
+                                                Grid (or any Grid
+                                                won or that is draw)</p>
+                                        </li>
+                                    </ol>
+                                </em>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>A Grid Becomes Draw if there are no Squares to Play</p>
+                        <img src="docs/assets/Screenshot_20221025_202828_2.png" alt="Draw">
+                    </li>
+                    <li>
+                        <p>The final Game is won if a Player Wins 3 Grids in the Order of a Normal Tic-Tac-Toe</p>
+                        <img src="docs/assets/Screenshot_20221025_203045.png" alt="Player Win Game">
+                    </li>
+                </ol>
+                <br>
+                <hr>
+                <br>
+                <h3>Rules</h3>
+                <ol>
+                    <li>
+                        <p>Players can only Play in an Active Grid (Black Colored)</p>
+                    </li>
+                    <li>
+                        <p>Players can't play in Grid won before, or that becomes draw</p>
+                        <img src="docs/assets/Screenshot_20221025_202828.png" alt="Can't Play over Won / Draw Grid">
+                    </li>
+                </ol>
+            </section>
+            <!-- !SECTION Help -->
         </section>
-        <!-- !SECTION Help -->
-
     </section>
 
 

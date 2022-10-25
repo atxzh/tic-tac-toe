@@ -163,6 +163,8 @@ const startGame = (function () {
 
             this.selectionOverlay.classList.add('hidden');
 
+            document.querySelector('.buttonBig-revealLabel-qmark').classList.remove('hidden')
+
             this.colorValue = ['--color-o', '--color-x'];
 
             const restartGameButton = document.getElementById('gameRestart');
@@ -244,6 +246,9 @@ const restartGame = function (sectionOverlay, turnIndicator, gameWinDisplay) {
     squares.forEach(square => square.classList.remove('x-play', 'o-play', 'draw', 'active'));
 
     sectionOverlay.classList.remove('hidden');
+
+    document.querySelector('.buttonBig-revealLabel-qmark').classList.add('hidden')
+
 };
 
 const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass, winIndexes) {
@@ -331,6 +336,10 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
 (function () {
     const startGameButton = document.getElementById('gameStart');
 
+    const helpOnHead = document.querySelector('.buttonBig-revealLabel-qmark')
+
+    const helpButton = document.getElementById('q-mark')
+
     function _updatePlayerInfo(playerA, playerB) {
 
         const turnIndicator = document.querySelectorAll('.turn');
@@ -391,5 +400,23 @@ const displayGameResult = function (gameResult, player, turnIndicator) {
     }
 
     startGameButton.addEventListener('click', _getGamePlayInfo);
+
+    [helpButton, helpOnHead].forEach(help => {
+        help.addEventListener('click', () => {
+
+            const overlayHelp = document.querySelectorAll('.overlay')[1];
+
+            overlayHelp.classList.remove('hidden');
+
+            overlayHelp.addEventListener('click', (e) => {
+                if (e.target == overlayHelp && !e.target.closest('.overlay-help'))
+                    overlayHelp.classList.add('hidden')
+            });
+
+            document.querySelector('.buttonSmall-noLabel-close').addEventListener('click', () => {
+                overlayHelp.classList.add('hidden')
+            })
+        })
+    })
 
 })();
