@@ -54,7 +54,7 @@ const botPlay = (function () {
 
             },
 
-            miniMaxPlay: function (board, depth = 4, currentClass = this.botClass) {
+            miniMaxPlay: function (board, depth = 5, currentClass = this.botClass) {
 
                 let availableIndexToPlay = this.getAvailableSquares(board).availableIndex
 
@@ -121,6 +121,7 @@ const botPlay = (function () {
                         }
                     }
                 }
+                // console.log(allTestPlayInfos)
 
                 return allTestPlayInfos[bestTestPlay];
 
@@ -141,6 +142,8 @@ const botPlay = (function () {
                     var choosenSquare = choosenGrid.children[this.miniMaxPlay(_getBoard(choosenGrid)).index]
 
                 } else {
+
+                    choosenGrid = currentActiveGrid[0]
 
                     var choosenSquare = choosenGrid.children[this.miniMaxPlay(_getBoard(choosenGrid)).index]
 

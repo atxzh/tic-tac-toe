@@ -53,6 +53,8 @@ const startGame = (function () {
             smallSquare.removeEventListener('click', _updatePlayerTurn)
         })
 
+        debugger
+
         if (startGame.gameCheckAfterEvent(
             event.currentTarget.parentElement, startGame.classListNames[0]
         ))
@@ -86,8 +88,7 @@ const startGame = (function () {
             let checkOnGame = gameCheckOnGrids(currentMainGrid, currentPlayerClass, winIndexes)
 
             // Run only if a function exists
-            if (typeof checkOnGame == 'function')
-                var gameStatus = checkOnGame()
+            var gameStatus = typeof checkOnGame == 'function' ? checkOnGame() : undefined
 
             if (gameStatus?.state) {
                 // End Game
@@ -282,7 +283,7 @@ const gameCheckOnGrids = function (currentMainGrid, currentPlayerClass, winIndex
         currentMainGrid.classList.add('draw')
         currentMainGrid.classList.remove('active')
 
-        return false
+        return gameWinCheck.bind(null, winIndexes, currentMainGrid.parentElement, currentPlayerClass)
     }
 };
 
@@ -292,8 +293,8 @@ const gameWinCheck = function (winIndexes, gameGrid, currentPlayerClass) {
 
     const playerScoredGrids = Array.from(gameGrid.querySelectorAll(`.grid-bigSquare.${currentPlayerClass}`))
 
-    if (playerScoredGrids.length < 3)
-        return { state: false, result: undefined }
+    // if (playerScoredGrids.length < 3)
+    // return { state: false, result: undefined }
 
     let scoredIndexes = []
 
